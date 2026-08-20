@@ -1,15 +1,86 @@
-# Use Case: Split Payment
+# Multi-Vendor Artisan E-Commerce Marketplace
+
+## 1. Problem Statement
+
+The system is an online marketplace that enables independent craftspeople
+to set up storefronts, manage product catalogs, receive orders, and receive
+automated split payouts with platform commission deductions.
+
+---
+
+# 2. Requirements
+
+## 2.1 Functional Requirements
+
+[Paste your complete Functional Requirements table from Requirements.md here.]
+
+## 2.2 Non-Functional Requirements
+
+[Paste your complete Non-Functional Requirements table from Requirements.md here.]
+
+---
+
+# 3. UML Use-Case Diagram
+
+![Use-Case Diagram](UML/Use-Case-Diagram.drawio.png)
+
+## 3.1 Actors
+
+### Shopper
+
+The Shopper browses and searches products, adds products to the cart,
+places orders, and processes payments.
+
+### Artisan Vendor
+
+The Artisan Vendor manages the storefront and product catalog,
+views orders, and updates order status.
+
+## 3.2 Use Cases
+
+### Shopper Use Cases
+
+- Browse Products
+- Search Products
+- Apply Filters
+- Add Products to Cart
+- Place Order
+- Process Payment
+- Split Payment
+- Deduct 5% Platform Commission
+
+### Artisan Vendor Use Cases
+
+- Manage Storefront
+- Manage Product Catalog
+- View Orders
+- Update Order Status
+
+## 3.3 UML Relationships
+
+- `Place Order` includes `Process Payment`.
+- `Process Payment` includes `Split Payment`.
+- `Split Payment` includes `Deduct 5% Platform Commission`.
+- `Apply Filters` extends `Search Products`.
+
+---
+
+# 4. Use Case Flow — Split Payment
 
 ## Use Case ID
+
 UC-01
 
 ## Use Case Name
+
 Split Payment
 
 ## Primary Actor
+
 Shopper
 
 ## Supporting Actor
+
 Artisan Vendor
 
 ## Preconditions
