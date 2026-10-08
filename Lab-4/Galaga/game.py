@@ -29,9 +29,14 @@ def enemy_tint(kind):
     return palette[kind] if palette else None
 
 
+banner_text, banner_until = "", 0
+BANNER_MS = 1000
+
+
 def on_wave_start(wave):
     """Called at the start of every wave; add banners, speed-ups, or palette swaps here."""
-    pass
+    global banner_text, banner_until
+    banner_text, banner_until = f"WAVE {wave}", pygame.time.get_ticks() + BANNER_MS
 
 
 def shield_charges(wave):
@@ -218,6 +223,9 @@ class Game:
                 pygame.draw.polygon(screen, (220, 60, 60), [(sx - 14, PLAYER_Y + 12), (sx - 6, PLAYER_Y - 2), (sx - 4, PLAYER_Y + 12)])
         hud = font.render(f"Score {self.score}  Lives {self.lives}  Wave {self.wave}  R = reset", True, (240, 240, 240))
         screen.blit(hud, (10, 8))
+        if pygame.time.get_ticks() < banner_until:
+            banner = font.render(banner_text, True, (255, 255, 120))
+            screen.blit(banner, banner.get_rect(center=(WIDTH // 2, HEIGHT // 2)))
         if self.state == "lose":
             label = font.render("GAME OVER - Press R", True, (255, 255, 120))
             screen.blit(label, label.get_rect(center=(WIDTH // 2, HEIGHT // 2)))
