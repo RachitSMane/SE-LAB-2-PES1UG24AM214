@@ -231,7 +231,7 @@ The reports and this document are added in a separate evidence commit after thes
 
 ## 12. Reflection
 
-*The handout's specific reflection questions were not available when this report was written. This section reflects on the experiment itself. Answers to the handout's questions belong in `reflection.md`.*
+*The handout's specific reflection questions were not available when this report was written. This section reflects on the experiment itself. A longer experiment-based reflection is in `reflection.md`, which also needs checking against the handout's questions before submission.*
 
 **What static analysis did well.**
 
@@ -268,5 +268,5 @@ All 34 findings from the three tools were resolved: 26 from Pylint, 4 from Bandi
 | Pylint score > 9.5 | ✅ 10.00/10 |
 | Three tool-fix commits | ✅ |
 | `submission/Lab5_Static_Code_Analysis_Report.md` | ✅ This document |
-| `issues.md` (README deliverable) | ⬜ Not yet created — Section 6 can be used as its source |
-| `reflection.md` (README deliverable — answers to handout questions) | ⬜ Not yet created — needs the handout's questions |
+| `issues.md` (README deliverable) | ✅ 16 issues in the README's table format, high and medium severity first |
+| `reflection.md` (README deliverable) | ⚠️ Created as an experiment-based reflection; must be checked against the handout's four questions, which were not available |
