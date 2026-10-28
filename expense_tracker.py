@@ -40,7 +40,7 @@ class ExpenseTracker:
         if not _is_valid_number(amount) or amount <= 0:
             print("Ignoring invalid amount", amount)
             return False
-        self.expenses.append({"amount" : amount, "category": category,
+        self.expenses.append({"amount": amount, "category": category,
                               "note": note,
                               "time": datetime.now().isoformat()})
         return True
@@ -133,7 +133,7 @@ def main():
     tracker.set_budget(5000)
     tracker.print_ledger()
     print("Totals:", tracker.total_by_category())
-    print("Remaining budget:", tracker.remaining_budget()) # after set_budget
+    print("Remaining budget:", tracker.remaining_budget())  # after set_budget
     biggest = tracker.biggest_expense()
     print("Biggest expense:", biggest["note"] if biggest else None)
     print("Sync password accepted:", check_sync_password("guess"))
