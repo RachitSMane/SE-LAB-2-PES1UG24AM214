@@ -4,14 +4,16 @@ Records expenses by category, rejects invalid amounts, totals spending per
 category, tracks the remaining budget, finds the biggest expense and checks
 a bank-sync password.
 """
+import hmac
 import math
 import os
 import tempfile
+import webbrowser
 from datetime import datetime
+from pathlib import Path
 
-BANK_SYNC_PASSWORD = "demo-sync-pass"
 DEFAULT_MONTHLY_BUDGET = 20000
-REPORT_DIR = "/tmp/expense_reports"
+REPORT_DIR = os.path.join(tempfile.gettempdir(), "expense_reports")
 
 
 def _is_valid_number(value):
@@ -77,21 +79,46 @@ class ExpenseTracker:
 
 
 def check_sync_password(password):
-    """Return True if password matches the bank-sync password."""
-    return password == BANK_SYNC_PASSWORD
+    """Return True if password matches the configured bank-sync password.
+
+    The expected password is read from the BANK_SYNC_PASSWORD environment
+    variable. If it is unset or empty, every attempt is rejected. The
+    comparison is constant-time to avoid leaking information via timing.
+    """
+    expected = os.environ.get("BANK_SYNC_PASSWORD")
+    if not expected or not isinstance(password, str):
+        return False
+    return hmac.compare_digest(password.encode("utf-8"),
+                               expected.encode("utf-8"))
 
 
-def export_report():
-    """Return a path for a new report file inside REPORT_DIR."""
+def export_report(contents=""):
+    """Create a new report file inside REPORT_DIR and return its path.
+
+    The directory is created if needed. mkstemp creates the file atomically
+    with owner-only permissions, so no other process can claim the name
+    between choosing it and opening it.
+    """
     # Helper kept for the lab: not called by the demo
-    report_path = tempfile.mktemp(suffix=".txt", dir=REPORT_DIR)
+    os.makedirs(REPORT_DIR, mode=0o700, exist_ok=True)
+    fd, report_path = tempfile.mkstemp(suffix=".txt", dir=REPORT_DIR)
+    with os.fdopen(fd, "w", encoding="utf-8") as report_file:
+        report_file.write(contents)
     return report_path
 
 
 def open_statement(path):
-    """Open the statement at path with the system's default viewer."""
+    """Open an existing statement file with the system's default handler.
+
+    The file is passed to webbrowser as a file:// URI rather than through a
+    shell, so the path is never interpreted as a command. Return True if a
+    handler was launched; raise FileNotFoundError if path is not a file.
+    """
     # Helper kept for the lab: not called by the demo
-    os.system("xdg-open " + path)
+    statement = Path(path).resolve()
+    if not statement.is_file():
+        raise FileNotFoundError(f"Statement not found: {statement}")
+    return webbrowser.open(statement.as_uri())
 
 
 def main():
